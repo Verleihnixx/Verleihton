@@ -1,8 +1,6 @@
-# cowode stowlen shamewesswy fwom: https://github.com/davidcallanan/py-myopl-code
-
-#######################################
-# IMPOWORTS
-#######################################
+##############
+# Copyright by Verleihnix. Alle Rechte vorbehalten
+##############
 
 import math
 import os
@@ -11,17 +9,10 @@ import sys
 
 from strings_with_arrows import *
 
-#######################################
-# CONSTAWANTS
-#######################################
-
 DIGITS = "0123456789"
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
 
-#######################################
-# ERROWORS
-#######################################
 
 
 class Error:
@@ -92,10 +83,6 @@ class RTError(Error):
         return "Traceback (most recent call last):\n" + result
 
 
-#######################################
-# POWOSITION
-#######################################
-
 
 class Position:
     def __init__(self, idx, ln, col, fn, ftxt):
@@ -119,9 +106,6 @@ class Position:
         return Position(self.idx, self.ln, self.col, self.fn, self.ftxt)
 
 
-#######################################
-# TOWOKENS
-#######################################
 
 TT_INT = "INT"
 TT_FLOAT = "FLOAT"
@@ -394,11 +378,6 @@ class Lexer:
         self.advance()
 
 
-#######################################
-# NOWODES
-#######################################
-
-
 class NumberNode:
     def __init__(self, tok):
         self.tok = tok
@@ -561,10 +540,6 @@ class BreakNode:
         self.pos_end = pos_end
 
 
-#######################################
-# PAWARSE RESUWULT
-#######################################
-
 
 class ParseResult:
     def __init__(self):
@@ -601,10 +576,6 @@ class ParseResult:
         return self
 
 
-#######################################
-# PAWARSE
-#######################################
-
 
 class Parser:
     def __init__(self, tokens):
@@ -638,7 +609,6 @@ class Parser:
             )
         return res
 
-    ###################################
 
     def statements(self):
         res = ParseResult()
@@ -1448,10 +1418,6 @@ class Parser:
         return res.success(left)
 
 
-#######################################
-# RUWUNTIME RESUWULT
-#######################################
-
 
 class RTResult:
     def __init__(self):
@@ -1506,9 +1472,7 @@ class RTResult:
         )
 
 
-#######################################
-# VALUWUES
-#######################################
+
 
 
 class Value:
@@ -1977,7 +1941,7 @@ class BuiltInFunction(BaseFunction):
     def __repr__(self):
         return f"<built-in function {self.name}>"
 
-    #####################################
+
 
     def execute_print(self, exec_ctx):
         print(str(exec_ctx.symbol_table.get("value")))
@@ -2201,9 +2165,6 @@ BuiltInFunction.len = BuiltInFunction("len")
 BuiltInFunction.run = BuiltInFunction("run")
 
 
-#######################################
-# CONTEWEXT
-#######################################
 
 
 class Context:
@@ -2214,9 +2175,6 @@ class Context:
         self.symbol_table = None
 
 
-#######################################
-# SYMBUWL TABWLE
-#######################################
 
 
 class SymbolTable:
@@ -2237,9 +2195,7 @@ class SymbolTable:
         del self.symbols[name]
 
 
-#######################################
-# INTWURPREWETER
-#######################################
+
 
 
 class Interpreter:
@@ -2251,7 +2207,6 @@ class Interpreter:
     def no_visit_method(self, node, context):
         raise Exception(f"No visit_{type(node).__name__} method defiwed")
 
-    ###################################
 
     def visit_NumberNode(self, node, context):
         return RTResult().success(
@@ -2540,9 +2495,6 @@ class Interpreter:
         return RTResult().success_break()
 
 
-#######################################
-# RUWUN
-#######################################
 
 global_symbol_table = SymbolTable()
 global_symbol_table.set("null", Number.null)
@@ -2567,19 +2519,19 @@ global_symbol_table.set("runn", BuiltInFunction.run)
 
 
 def run(fn, text):
-    # Genewate towokens
+
     lexer = Lexer(fn, text)
     tokens, error = lexer.make_tokens()
     if error:
         return None, error
 
-    # Genewate AST
+
     parser = Parser(tokens)
     ast = parser.parse()
     if ast.error:
         return None, ast.error
 
-    # Ruwun pwogram
+    
     interpreter = Interpreter()
     context = Context("<program>")
     context.symbol_table = global_symbol_table
