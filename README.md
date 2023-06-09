@@ -2,5 +2,3 @@
 Programmier Sprache
 
 
-Installation:
-```pip install Verleihton```
